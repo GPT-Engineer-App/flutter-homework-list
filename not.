@@ -1,0 +1,95 @@
+import 'package:flutter/material.dart';
+import 'homework_submission_page.dart';
+
+class HomeworkListPage extends StatefulWidget {
+  const HomeworkListPage({super.key});
+
+  @override
+  _HomeworkListPageState createState() => _HomeworkListPageState();
+}
+
+class _HomeworkListPageState extends State<HomeworkListPage> {
+  final List<Map<String, dynamic>> _homeworkList = [
+    {'title': 'Math Homework', 'submitted': false},
+    {'title': 'Science Project', 'submitted': false},
+    {'title': 'History Essay', 'submitted': false},
+    {'title': 'Art Assignment', 'submitted': false},
+  ];
+
+  void _submitHomework(int index) {
+    setState(() {
+      _homeworkList[index]['submitted'] = true;
+    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const HomeworkSubmissionPage()),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: const Text('Homework List'),
+        backgroundColor: Colors.amber,
+      ),
+      body: AnimatedList(
+        initialItemCount: _homeworkList.length,
+        itemBuilder: (context, index, animation) {
+          return _buildHomeworkItem(context, index, animation);
+        },
+      ),
+    );
+  }
+
+  Widget _buildHomeworkItem(BuildContext context, int index, Animation<double> animation) {
+    return SizeTransition(
+      sizeFactor: animation,
+      child: Card(
+        color: _homeworkList[index]['submitted'] ? Colors.green : Colors.white,
+        child: ListTile(
+          title: Text(
+            _homeworkList[index]['title'],
+            style: TextStyle(
+              color: _homeworkList[index]['submitted'] ? Colors.white : Colors.black,
+              decoration: _homeworkList[index]['submitted'] ? TextDecoration.lineThrough : TextDecoration.none,
+            ),
+          ),
+          trailing: _homeworkList[index]['submitted']
+              ? const Icon(Icons.check, color: Colors.white)
+              : ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.amber),
+                  ),
+                  onPressed: () => _submitHomework(index),
+                  child: const Text('Submit'),
+                ),
+        ),
+      ),
+    );
+  }
+}
+
+class HomeworkSubmissionPage extends StatelessWidget {
+  const HomeworkSubmissionPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Submit Homework'),
+        backgroundColor: Colors.amber,
+      ),
+      body: Center(
+        child: const Text('Homework Submission Page'),
+      ),
+    );
+  }
+}
+
+void main() {
+  runApp(const MaterialApp(
+    home: HomeworkListPage(),
+  ));
+}
