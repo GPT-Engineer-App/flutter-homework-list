@@ -1,6 +1,6 @@
 // Update this page (the content is just a fallback if you fail and example)
 // Use chakra-ui
-import { Container, Text, VStack } from "@chakra-ui/react";
+import { Container, Text, VStack, Button } from "@chakra-ui/react";
 
 // Example of using react-icons
 // import { FaRocket } from "react-icons/fa";
@@ -13,6 +13,9 @@ const Index = () => {
         <Text fontSize="2xl">Your Blank Canvas</Text>
         <Text>Chat with the agent to start making edits.</Text>
       </VStack>
+      <Button colorScheme="yellow" position="absolute" bottom="10" onClick={() => alert("Submit Homework")}>
+        Submit Homework
+      </Button>
     </Container>
   );
 };
